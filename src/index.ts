@@ -19,7 +19,7 @@ export default function Inline(): Plugin {
     async load(id) {
       if (id.endsWith('?inline&raw') || id.endsWith('?raw&inline')) {
         const filename = id.slice(0, id.length - '?inline&raw'.length);
-        const ext = path.extname(filename);
+        const ext = path.extname(filename).slice(1);
         if (!['ts', 'tsx', 'mts', 'js', 'jsx', 'mjs', 'cjs'].includes(ext)) {
           return;
         }
