@@ -37,7 +37,7 @@ export default defineConfig({
 
 ## Usage
 
-For example, you want to get the transformed TypeScript file `inline.ts`.
+For example, you want to import the **raw content** of `inline.ts` which has been transpiled to JavaScript.
 
 ```ts
 // inline.ts
