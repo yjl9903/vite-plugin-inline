@@ -1,8 +1,11 @@
 {
   "name": "vite-plugin-inline",
   "version": "0.0.1",
-  "description": "",
+  "description": "Inline raw TypeScript code as a string",
   "keywords": [
+    "inline",
+    "static-assets",
+    "typescript",
     "vite",
     "vite-plugin"
   ],
@@ -49,7 +52,8 @@
     "release": "bumpp --commit --push --tag && pnpm publish",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "preversion": "pnpm typecheck && pnpm build"
+    "preversion": "pnpm typecheck && pnpm build",
+    "postversion": "pnpm build"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",
