@@ -2,7 +2,10 @@
   "name": "vite-plugin-inline",
   "version": "0.0.0",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "vite",
+    "vite-plugin"
+  ],
   "homepage": "https://github.com/yjl9903/vite-plugin-inline#readme",
   "bugs": {
     "url": "https://github.com/yjl9903/vite-plugin-inline/issues"
@@ -16,24 +19,37 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs"
+    },
+    "./client": {
+      "types": "./client.d.ts"
     }
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "*.d.ts"
   ],
   "scripts": {
     "build": "unbuild",
+    "dev": "pnpm -C examples/vite dev",
     "format": "prettier --write src/**/*.ts",
     "release": "bumpp --commit --push --tag && pnpm publish",
-    "preversion": "pnpm typecheck && pnpm build",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "preversion": "pnpm typecheck && pnpm build"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",
@@ -43,6 +59,9 @@
     "unbuild": "^3.3.1",
     "vite": "^6.0.11",
     "vitest": "^3.0.4"
+  },
+  "peerDependencies": {
+    "vite": "^6.0.0"
   },
   "packageManager": "pnpm@9.15.4"
 }

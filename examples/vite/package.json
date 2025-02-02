@@ -1,0 +1,14 @@
+{
+  "name": "vite-plugin-inline-vite-demo",
+  "private": "true",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

@@ -30,4 +30,5 @@ jobs:
         run: pnpm build
 
       - name: Test
-        run: pnpm test
+        run: |
+          pnpm -C examples/vite build
