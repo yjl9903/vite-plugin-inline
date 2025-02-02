@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true
   },
   "exclude": [
+    "examples",
     "node_modules"
   ]
 }
