@@ -1,4 +1,4 @@
-import code from './inline?raw&inline';
+import code from './inline?inline-ts';
 
 console.log('Inline code is:', code);
 

@@ -4,9 +4,9 @@
 [![GitHub License](https://img.shields.io/github/license/yjl9903/vite-plugin-inline)](https://github.com/yjl9903/vite-plugin-inline/blob/main/LICENSE)
 [![CI](https://github.com/yjl9903/vite-plugin-inline/actions/workflows/ci.yml/badge.svg)](https://github.com/yjl9903/vite-plugin-inline/actions/workflows/ci.yml)
 
-Inline raw TypeScript code as a string.
+Inline transpiled TypeScript code as a string.
 
-Add `?raw&inline` (or `?inline&raw`) import url suffix support for Vite.
+Add `?inline-ts` import url suffix support for Vite.
 
 ## Installation
 
@@ -47,7 +47,7 @@ const hello: string = 'hello'
 ```ts
 // main.ts
 
-import code from './inline.ts?raw&inline'
+import code from './inline.ts?inline-ts'
 
 console.log(code) // Print: "const hello = 'hello'"
 ```
