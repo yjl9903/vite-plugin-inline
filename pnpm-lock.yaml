@@ -12,8 +12,8 @@ importers:
         specifier: ^22.17.1
         version: 22.17.1
       bumpp:
-        specifier: ^10.2.2
-        version: 10.2.2
+        specifier: ^10.2.3
+        version: 10.2.3
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -430,8 +430,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
-  bumpp@10.2.2:
-    resolution: {integrity: sha512-b6LpQOuXqhejTfNV8r1XkdPQiPWS09l+k+W8raTV2YaFeIqCA76D81G22ac/2jhVTCWXwbEMgvxbQtHriOIPkw==}
+  bumpp@10.2.3:
+    resolution: {integrity: sha512-nsFBZACxuBVu6yzDSaZZaWpX5hTQ+++9WtYkmO+0Bd3cpSq0Mzvqw5V83n+fOyRj3dYuZRFCQf5Z9NNfZj+Rnw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1452,7 +1452,7 @@ snapshots:
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.25.2)
 
-  bumpp@10.2.2:
+  bumpp@10.2.3:
     dependencies:
       ansis: 4.1.0
       args-tokenizer: 0.3.0
