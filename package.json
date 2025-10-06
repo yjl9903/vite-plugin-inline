@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.18.8",
-    "bumpp": "^10.2.3",
+    "bumpp": "^10.3.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "unbuild": "^3.6.1",
