@@ -62,7 +62,7 @@
     "typescript": "^5.9.3",
     "unbuild": "^3.6.1",
     "vite": "^7.2.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.9"
   },
   "peerDependencies": {
     "vite": ">=5.0.0"
