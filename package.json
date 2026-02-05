@@ -56,7 +56,7 @@
     "postversion": "pnpm build"
   },
   "devDependencies": {
-    "@types/node": "^24.10.10",
+    "@types/node": "^24.10.11",
     "bumpp": "^10.4.1",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
