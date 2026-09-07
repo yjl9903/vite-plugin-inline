@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 
-import Inline from '../../src/';
+import Inline from '../../src/index.js';
 
 export default defineConfig({
   plugins: [

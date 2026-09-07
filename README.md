@@ -8,6 +8,9 @@ Inline transpiled TypeScript code as a string.
 
 Add `?inline-ts` import url suffix support for Vite.
 
+> Supports Vite 5 and newer. Vite 8 uses Oxc for transformation and minification;
+> earlier versions use esbuild. No separate esbuild installation is needed with Vite 8.
+
 ## Installation
 
 ```bash

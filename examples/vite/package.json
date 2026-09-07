@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-inline-vite-demo",
-  "private": "true",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "vite build",

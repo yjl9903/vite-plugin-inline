@@ -20,11 +20,17 @@
   "license": "MIT",
   "author": "XLor",
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./client": {
       "types": "./client.d.ts"
@@ -32,7 +38,7 @@
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "typesVersions": {
     "*": {
       "*": [
@@ -46,26 +52,29 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "tsdown",
     "dev": "pnpm -C examples/vite dev",
-    "format": "prettier --write src/**/*.ts",
-    "release": "bumpp --commit --push --tag && pnpm publish",
+    "format": "prettier --write {src,test}/**/*.ts",
+    "release": "bumpp --commit --push --tag",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "preversion": "pnpm typecheck && pnpm build",
     "postversion": "pnpm build"
   },
+  "dependencies": {
+    "get-tsconfig": "^4.14.3"
+  },
   "devDependencies": {
     "@types/node": "^24.13.3",
-    "bumpp": "^12.0.0",
+    "bumpp": "^12.3.0",
     "prettier": "^3.9.6",
-    "typescript": "^6.0.3",
-    "unbuild": "^3.6.1",
-    "vite": "^8.1.5",
-    "vitest": "^4.1.10"
+    "tsdown": "^0.23.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "vite": ">=5.0.0"
   },
-  "packageManager": "pnpm@10.34.5"
+  "packageManager": "pnpm@12.3.4"
 }
