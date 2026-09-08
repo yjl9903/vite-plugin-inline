@@ -3,7 +3,8 @@ import path from 'node:path';
 
 import type { Plugin, ResolvedConfig } from 'vite';
 
-import { getTsconfig } from 'get-tsconfig';
+import { inlineOxcHelpers } from './oxc-helpers.js';
+import { getSourceTsconfig } from './tsconfig.js';
 
 export default function Inline(): Plugin {
   let config!: ResolvedConfig;
@@ -50,9 +51,9 @@ export default function Inline(): Plugin {
 
         if (typeof vite.transformWithOxc === 'function') {
           // Oxc defaults to automatic JSX; preserve esbuild's classic default
-          // without overriding an explicit (possibly inherited) tsconfig setting.
+          // without overriding an inherited or referenced tsconfig setting.
           const jsx =
-            lang === 'tsx' ? getTsconfig(filename)?.config.compilerOptions?.jsx : undefined;
+            lang === 'tsx' ? getSourceTsconfig(filename)?.config.compilerOptions?.jsx : undefined;
           const result = await vite.transformWithOxc(code, filename, {
             lang,
             target,
@@ -62,7 +63,7 @@ export default function Inline(): Plugin {
           for (const warning of result.warnings) {
             this.warn(warning);
           }
-          transformed = result.code;
+          transformed = await inlineOxcHelpers(result.code, filename, result.helpersUsed, target);
 
           // Oxc's transform API does not minify; Vite 8 exposes its minifier separately.
           if (minify) {

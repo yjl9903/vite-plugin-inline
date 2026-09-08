@@ -1,4 +1,4 @@
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -148,6 +148,35 @@ describe('inline imports', () => {
     });
   });
 
+  it('respects JSX settings inherited by the referenced project containing the source', async () => {
+    await mkdir(path.join(root, 'src'));
+    await writeFile(
+      path.join(root, 'tsconfig.json'),
+      JSON.stringify({
+        files: [],
+        references: [{ path: './tsconfig.node.json' }, { path: './tsconfig.app.json' }]
+      })
+    );
+    await writeFile(
+      path.join(root, 'tsconfig.node.json'),
+      JSON.stringify({ compilerOptions: { jsx: 'react' }, include: ['vite.config.ts'] })
+    );
+    await writeFile(
+      path.join(root, 'tsconfig.base.json'),
+      JSON.stringify({ compilerOptions: { jsx: 'react-jsx', jsxImportSource: 'custom-jsx' } })
+    );
+    await writeFile(
+      path.join(root, 'tsconfig.app.json'),
+      JSON.stringify({ extends: './tsconfig.base.json', include: ['src'] })
+    );
+    const loader = await createLoader();
+    const code = await loader.transform('report(<span>Hello</span>);', 'src/inline.tsx');
+
+    expect(code).toContain('custom-jsx/jsx-runtime');
+    expect(code).not.toContain('React.createElement');
+    expect(code).not.toContain('<span>');
+  });
+
   it.each(['?inline-ts', '?inline&raw', '?raw&inline'])(
     'supports the %s suffix',
     async (suffix) => {
@@ -260,6 +289,58 @@ describe('transform settings', () => {
     expect(code).not.toContain('??');
     expect(run(code).mock.calls).toEqual([[42], [0]]);
   });
+
+  it.each([false, true])('inlines class field helpers with minify: %s', async (minify) => {
+    const loader = await createLoader('build', { build: { target: 'es2015', minify } });
+    const code = await loader.transform(`
+      class Counter {
+        #value = 41;
+        label = 'answer';
+        next() { return ++this.#value; }
+      }
+      const counter = new Counter();
+      report(counter.label, counter.next());
+    `);
+
+    expect(run(code)).toHaveBeenCalledWith('answer', 42);
+  });
+
+  it.each([false, true])('inlines decorator helpers with minify: %s', async (minify) => {
+    await writeFile(
+      path.join(root, 'tsconfig.json'),
+      JSON.stringify({ compilerOptions: { experimentalDecorators: true } })
+    );
+    const loader = await createLoader('build', { build: { target: 'es2015', minify } });
+    const code = await loader.transform(`
+      function decorated(target: any) { target.answer = 42; }
+      @decorated
+      class Example {}
+      report((Example as any).answer);
+    `);
+
+    expect(run(code)).toHaveBeenCalledWith(42);
+  });
+
+  it.each([false, true])(
+    'preserves source imports and exports when inlining ESM helpers with minify: %s',
+    async (minify) => {
+      const loader = await createLoader('build', {
+        build: { target: 'es2015', minify }
+      });
+      const dependency = 'data:text/javascript,export const answer = 42;';
+      const code = await loader.transform(
+        `import { answer } from ${JSON.stringify(dependency)};
+       export class Example { value = answer; }`,
+        'inline.mts'
+      );
+      const module = await import(
+        /* @vite-ignore */ `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`
+      );
+
+      expect(code).toContain(dependency);
+      expect(new module.Example().value).toBe(42);
+    }
+  );
 
   it.each([false, 'esnext'] as const)(
     'preserves modern syntax for build.target: %s',
